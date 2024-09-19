@@ -1,8 +1,8 @@
 [package]
-name = "morse_code_converter"
+name = "morse-code"
 version = "0.1.0"
 description = "A simple Rust WASM app to convert text to Morse code and back"
-repository = "https://github.com/gavincangan/morse_code_converter"
+repository = "https://github.com/gavincangan/morse-code"
 license = "MIT"  # or whatever license you prefer
 edition = "2021"
 
