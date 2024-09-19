@@ -48,8 +48,12 @@ impl MorseConverter {
 
     #[wasm_bindgen]
     pub fn from_morse(&self, morse: &str) -> String {
-        morse.split_whitespace()
-            .flat_map(|code| if code == "/" { vec![' '] } else { vec![*self.from_morse.get(code).unwrap_or(&' ')] })
-            .collect()
+        morse.split('/')
+        .map(|word| word.split_whitespace()
+            .filter(|s| !s.is_empty())
+            .map(|code| *self.from_morse.get(code).unwrap_or(&' '))
+            .collect::<String>())
+        .collect::<Vec<_>>()
+        .join(" ")
     }
 }
