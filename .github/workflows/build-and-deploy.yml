@@ -10,6 +10,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
     - uses: actions/checkout@v2
 
@@ -26,6 +29,7 @@ jobs:
     - name: Build
       run: |
         wasm-pack build --target web
+        mkdir -p www/pkg
         cp pkg/morse_code_converter_bg.wasm www/pkg/
         cp pkg/morse_code_converter.js www/pkg/
 
