@@ -37,16 +37,19 @@ impl MorseConverter {
     #[wasm_bindgen]
     pub fn to_morse(&self, text: &str) -> String {
         text.to_uppercase()
-            .chars()
-            .map(|c| *self.to_morse.get(&c).unwrap_or(&" "))
+            .split_whitespace()
+            .map(|word| word.chars()
+                .map(|c| *self.to_morse.get(&c).unwrap_or(&" "))
+                .collect::<Vec<_>>()
+                .join(" "))
             .collect::<Vec<_>>()
-            .join(" ")
+            .join("/")
     }
 
     #[wasm_bindgen]
     pub fn from_morse(&self, morse: &str) -> String {
         morse.split_whitespace()
-            .map(|code| self.from_morse.get(code).unwrap_or(&' '))
+            .flat_map(|code| if code == "/" { vec![' '] } else { vec![*self.from_morse.get(code).unwrap_or(&' ')] })
             .collect()
     }
 }
