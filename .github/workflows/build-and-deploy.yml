@@ -30,8 +30,8 @@ jobs:
       run: |
         wasm-pack build --target web
         mkdir -p www/pkg
-        cp pkg/morse-code_bg.wasm www/pkg/
-        cp pkg/morse-code.js www/pkg/
+        cp pkg/morse_code_bg.wasm www/pkg/
+        cp pkg/morse_code.js www/pkg/
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

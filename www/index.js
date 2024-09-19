@@ -1,4 +1,4 @@
-import init, { MorseConverter } from './pkg/morse-code.js';
+import init, { MorseConverter } from './pkg/morse_code.js';
 
 async function run() {
     await init();
