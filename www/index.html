@@ -28,12 +28,15 @@
         button {
             margin-right: 1rem;
         }
+        #output {
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Morse Code Converter</h1>
-        <textarea id="input" placeholder="Enter text or Morse code (characters separated by spaces and words by /)"></textarea>
+        <textarea id="input" placeholder="Enter text or Morse code (characters separated by spaces and words by two spaces)"></textarea>
         <div>
             <button id="toMorse">Convert to Morse</button>
             <button id="fromMorse">Convert from Morse</button>

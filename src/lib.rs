@@ -1,5 +1,12 @@
 use wasm_bindgen::prelude::*;
 use std::collections::HashMap;
+use console_error_panic_hook;
+use web_sys::console;
+
+#[wasm_bindgen(start)]
+pub fn start() {
+    console_error_panic_hook::set_once();
+}
 
 #[wasm_bindgen]
 pub struct MorseConverter {
@@ -34,26 +41,28 @@ impl MorseConverter {
         MorseConverter { to_morse, from_morse }
     }
 
-    #[wasm_bindgen]
     pub fn to_morse(&self, text: &str) -> String {
-        text.to_uppercase()
-            .split_whitespace()
-            .map(|word| word.chars()
-                .map(|c| *self.to_morse.get(&c).unwrap_or(&" "))
+        let morse = text.split_whitespace()
+            .map(|word| word.to_uppercase().chars()
+                .filter_map(|c| self.to_morse.get(&c))
+                .map(|&s| s)
                 .collect::<Vec<_>>()
                 .join(" "))
             .collect::<Vec<_>>()
-            .join("/")
+            .join("  ");
+        console::log_1(&format!("Debug - Morse code: {:?}", morse).into());
+        morse
     }
 
     #[wasm_bindgen]
     pub fn from_morse(&self, morse: &str) -> String {
-        morse.split('/')
+        let text = morse.split("  ")
         .map(|word| word.split_whitespace()
-            .filter(|s| !s.is_empty())
             .map(|code| *self.from_morse.get(code).unwrap_or(&' '))
             .collect::<String>())
         .collect::<Vec<_>>()
-        .join(" ")
+        .join(" ");
+        console::log_1(&format!("Debug - text: {:?}", text).into());
+        text
     }
 }
