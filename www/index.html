@@ -16,6 +16,8 @@
         }
         .container {
             background-color: white;
+            justify-content: center;
+            align-items: center;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -38,10 +40,8 @@
         <h1>Morse Code Converter</h1>
         <textarea id="input" placeholder="Enter text or Morse code (characters separated by spaces and words by two spaces)"></textarea>
         <div>
-            <button id="toMorse">Convert to Morse</button>
-            <button id="fromMorse">Convert from Morse</button>
+            <button id="triggerConversion">Convert</button>
         </div>
-        <p id="output"></p>
     </div>
     <script type="module" src="index.js"></script>
 </body>

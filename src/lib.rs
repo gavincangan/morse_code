@@ -8,6 +8,10 @@ pub fn start() {
     console_error_panic_hook::set_once();
 }
 
+macro_rules! console_log {
+    ($($t:tt)*) => (console::log_1(&format!($($t)*).into()))
+}
+
 #[wasm_bindgen]
 pub struct MorseConverter {
     to_morse: HashMap<char, &'static str>,
@@ -41,7 +45,24 @@ impl MorseConverter {
         MorseConverter { to_morse, from_morse }
     }
 
-    pub fn to_morse(&self, text: &str) -> String {
+    #[wasm_bindgen]
+    pub fn convert(&self, input: &str) -> String {
+        let is_morse = self.is_morse_code(input);
+        console_log!("DEBUG Detected {}: {}", if is_morse { "morse code" } else { "plain text" }, input);
+        if is_morse {
+            self.from_morse(input)
+        } else {
+            self.to_morse(input)
+        }
+    }
+
+    fn is_morse_code(&self, input: &str) -> bool {
+        input.split_whitespace().all(|word| {
+            word.chars().all(|c| c == '.' || c == '-')
+        })
+    }
+
+    fn to_morse(&self, text: &str) -> String {
         let morse = text.split_whitespace()
             .map(|word| word.to_uppercase().chars()
                 .filter_map(|c| self.to_morse.get(&c))
@@ -50,19 +71,18 @@ impl MorseConverter {
                 .join(" "))
             .collect::<Vec<_>>()
             .join("  ");
-        console::log_1(&format!("Debug - Morse code: {:?}", morse).into());
+        console_log!("DEBUG output - Morse code: {:?}", morse);
         morse
     }
 
-    #[wasm_bindgen]
-    pub fn from_morse(&self, morse: &str) -> String {
+    fn from_morse(&self, morse: &str) -> String {
         let text = morse.split("  ")
         .map(|word| word.split_whitespace()
             .map(|code| *self.from_morse.get(code).unwrap_or(&' '))
             .collect::<String>())
         .collect::<Vec<_>>()
         .join(" ");
-        console::log_1(&format!("Debug - text: {:?}", text).into());
+        console_log!("DEBUG output - text: {:?}", text);
         text
     }
 }

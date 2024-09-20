@@ -5,20 +5,12 @@ async function run() {
     const converter = new MorseConverter();
 
     const inputElement = document.getElementById('input');
-    const outputElement = document.getElementById('output');
-    const toMorseButton = document.getElementById('toMorse');
-    const fromMorseButton = document.getElementById('fromMorse');
+    const triggerConversionButton = document.getElementById('triggerConversion');
 
-    toMorseButton.addEventListener('click', () => {
-        const text = inputElement.value;
-        const morse = converter.to_morse(text);
-        outputElement.textContent = morse;
-    });
-
-    fromMorseButton.addEventListener('click', () => {
-        const morse = inputElement.value;
-        const text = converter.from_morse(morse);
-        outputElement.textContent = text;
+    triggerConversionButton.addEventListener('click', () => {
+        const input = inputElement.value;
+        const output = converter.convert(input);
+        inputElement.value = output;
     });
 }
 
