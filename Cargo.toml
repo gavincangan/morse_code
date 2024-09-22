@@ -3,7 +3,7 @@ name = "morse_code"
 version = "0.1.0"
 description = "A simple Rust WASM app to convert text to Morse code and back"
 repository = "https://github.com/gavincangan/morse_code"
-license = "MIT"  # or whatever license you prefer
+license = "MIT"
 edition = "2021"
 
 [lib]
